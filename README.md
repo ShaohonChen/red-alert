@@ -1,116 +1,166 @@
+![Red conversation text](docs/banner.svg)
+
 # Red conversation text · 对话文字变红
 
-把 **DeepSeek Harness（DSH）Web GUI 的对话面板文字变成红色**的本地 UI 插件，零依赖、无构建步骤。
+**让 DeepSeek Harness 的对话面板，红得理直气壮。**
+一个零依赖的 DSH Web GUI 插件：一段作用域样式，就能把对话面板里的文字全部调成红色。
 
-A zero-dependency local UI plugin for the DeepSeek Harness Web GUI that turns the
-conversation pane's text red.
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-ef4444?style=flat-square)](LICENSE)
+![Dependencies: 0](https://img.shields.io/badge/dependencies-0-22c55e?style=flat-square)
+![Build: none](https://img.shields.io/badge/build-none%20needed-22c55e?style=flat-square)
+![DSH](https://img.shields.io/badge/DSH-0.2.2--rc.5-8b5cf6?style=flat-square)
 
-[中文](#中文) · [English](#english)
+[中文](#中文) · [English](#english) · [安装](#安装) · [自定义](#自定义) · [常见问题](#常见问题)
 
 ---
 
 ## 中文
 
-### 预览
+### 先说结论
+
+- 🎯 **做什么** — 把 DSH 对话面板里的文字变成红色：消息、输入框、欢迎语。
+- 🪶 **多轻** — 零依赖、无构建、无 Host 逻辑，只有一段作用域样式。
+- 🙈 **多安全** — 不读写会话数据、不发网络请求、不改 DOM 结构。
+- 🎨 **多可控** — 换颜色或缩小范围，改一个 token / 一个选择器。
+
+### 一眼看效果
 
 ![默认配色与变红后的对话面板对比（示意图，非真实截图）](docs/preview.svg)
 
-![插件从 Host 插件行注入作用域样式到对话面板](docs/how-it-works.svg)
-
-### 效果
-
-对话面板（`data-conversation-content` 子树）内的正文文字统一显示为红色：
-
 | 变红 | 保持原样 |
 | --- | --- |
-| 你发送的消息、助手的回复 | 代码块中带语法高亮的高亮 token |
-| 输入框文字与光标 | 面板外的侧边栏、对话标题栏、右栏 |
-| 新会话欢迎语、面板内的内联菜单 | portal 到 `body` 的宿主浮层 |
+| 你的消息、助手的回复 | 代码块里的语法高亮 token |
+| 输入框文字与光标 | 侧边栏、对话标题栏、右栏 |
+| 新会话欢迎语、面板内联菜单 | portal 到 `body` 的宿主浮层 |
 
-红色取主题的 `--dsw-alias-state-error-primary`（浅色为 red-600、深色为 red-400），
-切换浅色 / 深色主题时自动适配，不需要额外配置。
+红色不是写死的色值：它取主题的 `--dsw-alias-state-error-primary`（浅色 red-600 / 深色 red-400），
+所以浅色、深色主题都不需要额外配置。
 
 ### 安装
 
-前提：DSH `0.2.2-rc.5`（Desktop 版）或相近版本，并已启用 Web GUI。
-
 1. 打开 **设置 → 插件 → 添加插件**；
-2. 填入本仓库的本地目录绝对路径，例如
-   `/Users/you/code/dsh-red-dialog-text`；
-   也支持 GitHub 仓库地址：`https://github.com/ShaohonChen/dsh-red-dialog-text`；
-3. 安装成功后，插件列表会出现「对话文字变红 / Red conversation text」。
-   若页面没有立即生效，按 `⌘R`（Windows 为 `Ctrl+R`）刷新一次。
+2. 填入本仓库在本机的绝对路径：
+   ```
+   /Users/you/code/dsh-red-dialog-text
+   ```
+   也可以直接填 GitHub 地址：
+   ```
+   https://github.com/ShaohonChen/dsh-red-dialog-text
+   ```
+3. 装好后插件列表里会出现「**对话文字变红 / Red conversation text**」。
+   如果页面还没变化，按 `⌘R`（Windows `Ctrl+R`）刷新一次。
+
+> 小提示：以本地目录安装时，改完 CSS 刷新页面即可生效，不需要重新安装。
 
 ### 停用与卸载
 
-- **停用**：设置 → 插件 → 已安装插件 → 「对话文字变红」的启用开关关闭，文字立即恢复原色。
-- **卸载**：进入该插件详情页 → 右上角「卸载」按钮。
+- **暂时关掉**：设置 → 插件 → 「对话文字变红」的开关关闭，文字立刻恢复原色。
+- **彻底移除**：进入插件详情页 → 右上角「卸载」。
 
-### 兼容性
+### 为什么做它？
 
-- 依赖 DSH 页面上的两个稳定钩子：对话面板的 `data-conversation-content` 容器，
-  以及 `--dsw-alias-*` 主题 token。
-- 在 DSH `0.2.2-rc.5`（macOS Desktop）上开发；其他版本未逐一测试。
-  若 DSH 调整了上述钩子，插件可能不再生效，需要更新选择器。
+有时候你只是想让对话更抢眼——录屏、截图、演示，或者单纯想给 DSH 换个心情。
+它不接管你的会话，也不改变布局，只做一件事：**把颜色换成红色**。
 
-### 实现
+> 副作用警告：可能会开始觉得红色才是正常配色。
 
-- Host 半边（`index.js`）为空，只负责让插件行加载客户端模块。
-- 客户端半边（`client.js`）在 `apply` 中用 `ctx.effect` 注入一段 `<style>`，
-  插件停用 / 卸载时自动移除。
-- 样式只做一件事：在对话面板子树里把 label 系列 token 重定向到主题错误红，
-  并给编辑区加红色光标；不修改 DOM 结构。
-- 不读写任何会话数据，不发网络请求，不申请额外权限。
+### 工作原理
+
+![插件从 Host 插件行注入作用域样式到对话面板](docs/how-it-works.svg)
+
+- Host 半边（[index.js](index.js)）是空的，只负责让插件行加载客户端模块；
+- 客户端（[client.js](client.js)）在 `apply` 里用 `ctx.effect` 注入一段 `<style>`，停用 / 卸载时自动移除；
+- 样式只在 `[data-conversation-content]` 子树里把 label 系列 token 指向主题错误红，并给编辑区加红色光标；
+- 没有事件监听、没有定时器、没有网络请求。
 
 ### 自定义
 
-直接改 [client.js](client.js) 里 `CSS` 字符串中的 token 与选择器：
+改 [client.js](client.js) 里 `CSS` 字符串即可，几个常见玩法：
 
-| 目标 | 改法 |
+| 想要 | 改法 |
 | --- | --- |
-| 换颜色 | 把 `var(--dsw-alias-state-error-primary)` 换成其他 `--dsw-alias-*` token 或具体颜色值 |
-| 只让消息变红、不动输入框 | 把选择器 `[data-conversation-content]` 换成 `[data-conversation-region="chat"]` |
-| 只让输入框变红 | 把选择器换成 `[data-conversation-region="composer"]` |
+| 换颜色 | 把 `var(--dsw-alias-state-error-primary)` 换成其他 `--dsw-alias-*` token 或色值 |
+| 只让聊天消息变红 | 选择器换成 `[data-conversation-region="chat"]` |
+| 只让输入框变红 | 选择器换成 `[data-conversation-region="composer"]` |
+| 关掉红色光标 | 删掉 `caret-color` 那条规则 |
 
-本地目录安装时改完刷新页面即可；Git 仓库安装时需重新安装。
+```css
+/* 例子：只让聊天消息变红 */
+html body [data-conversation-region="chat"] {
+  --dsw-alias-label-primary: var(--dsw-alias-state-error-primary);
+  color: var(--dsw-alias-state-error-primary);
+}
+```
+
+### 常见问题
+
+<details>
+<summary>安装后没有变红？</summary>
+
+先刷新页面（`⌘R`）。仍然不行就确认插件处于启用状态；再不行，把 DSH 版本和插件列表截图发个 Issue。
+</details>
+
+<details>
+<summary>会不会拖慢界面？</summary>
+
+不会。只有一条静态 CSS，没有 JS 监听器、没有轮询。
+</details>
+
+<details>
+<summary>会读取我的聊天内容吗？</summary>
+
+不会。插件不访问会话数据，也不发任何网络请求。
+</details>
+
+<details>
+<summary>代码块为什么没全红？</summary>
+
+语法高亮 token 保留自己的配色，读起来才有层次；普通代码文字会跟着变红。
+</details>
+
+### 兼容性
+
+- 依赖 DSH Web GUI 上的两个稳定钩子：`data-conversation-content` 容器和 `--dsw-alias-*` 主题 token。
+- 在 DSH `0.2.2-rc.5`（macOS Desktop）上开发，其他版本未逐一测试。
+- 如果 DSH 改了上述钩子，插件可能失效，需要更新选择器。
 
 ### 开发
 
 | 文件 | 作用 |
 | --- | --- |
-| [package.json](package.json) | 包声明：组合包 patch、`dsh.client` Web 入口、导出与文件清单 |
+| [package.json](package.json) | 包声明：组合包 patch、`dsh.client` 入口、导出与文件清单 |
 | [cordis.patch.yml](cordis.patch.yml) | 把插件行插入当前 profile |
 | [index.js](index.js) | Host 半边（空实现） |
 | [client.js](client.js) | 客户端半边：注入作用域样式 |
-| [locale/zh.json](locale/zh.json) / [locale/en.json](locale/en.json) | 插件管理器中的标题与说明 |
+| [locale/zh.json](locale/zh.json) / [locale/en.json](locale/en.json) | 插件管理器里的标题与说明 |
 | [icon.svg](icon.svg) | 插件图标（36×36） |
-| [README.md](README.md) | 本文档 |
-| [docs/](docs) | README 配图：效果对比与实现原理示意图 |
+| [docs/](docs) | README 配图：banner、效果对比、实现原理示意图 |
 | [LICENSE](LICENSE) | 许可证 |
 
-提交前快速校验：
+提交前快速自检：
 
 ```sh
 node --check client.js
 node -e "JSON.parse(require('fs').readFileSync('package.json','utf8'))"
-xmllint --noout icon.svg   # 可选，校验 SVG 格式
+xmllint --noout icon.svg docs/*.svg   # 可选
 ```
 
-欢迎提 Issue / PR，但请保持插件足够小、只做「对话面板文字变红」这一件事。
+欢迎 Issue / PR。想加「只让标题变红」「彩虹渐变」之类的玩法？改一个 token 就能提 PR。
 
 ### 许可证
 
-[The Unlicense](LICENSE)：公有领域。复制、修改、商用、再发布都无需署名，也无需保留任何声明。
+[The Unlicense](LICENSE)：公有领域，复制、修改、商用、再发布都不需要署名。
+
+如果它让你的截图更好看了，点个 Star ⭐ 就是最好的鼓励。
 
 ---
 
 ## English
 
-### Preview
+**Paint the DeepSeek Harness conversation red.**
+A zero-dependency DSH Web GUI plugin — one scoped stylesheet, no build step, no settings.
 
 ![Default vs. red conversation pane (schematic, not a real screenshot)](docs/preview.svg)
-
-![How the plugin injects a scoped stylesheet into the conversation pane](docs/how-it-works.svg)
 
 ### What it does
 
@@ -123,22 +173,40 @@ conversation header, right column, and portalled surfaces keep the host palette.
 ### Install
 
 1. Open **Settings → Plugins → Add plugin**;
-2. Enter the absolute path of this repository on your machine, or the GitHub URL
+2. enter this repository's absolute path, or
    `https://github.com/ShaohonChen/dsh-red-dialog-text`;
-3. Keep **Red conversation text** enabled. Refresh the page (`⌘R`) if the recolor
+3. keep **Red conversation text** enabled. Refresh the page (`⌘R`) if the recolor
    does not show up immediately.
 
-### Disable or uninstall
+To turn it off, use the plugin's enable switch; to remove it, uninstall from the
+plugin's detail page.
 
-- Disable the **Red conversation text** switch in Settings → Plugins to restore
-  the normal colors.
-- Uninstall from the plugin's detail page to remove the bundle entirely.
+### How it works
+
+![How the plugin injects a scoped stylesheet into the conversation pane](docs/how-it-works.svg)
+
+- The Host half is an empty `apply()` — it only lets the plugin row load the client module.
+- The client injects one `<style>` inside `ctx.effect` and removes it on unload.
+- The stylesheet recolors label tokens under `[data-conversation-content]` and adds a red caret.
+- No session access, no network, no DOM mutation, no timers.
+
+### Make it yours
+
+Edit the `CSS` string in [client.js](client.js):
+
+| Want | Change |
+| --- | --- |
+| Another color | Swap `var(--dsw-alias-state-error-primary)` for another `--dsw-alias-*` token or a literal color |
+| Only chat messages red | Use the selector `[data-conversation-region="chat"]` |
+| Only the composer red | Use the selector `[data-conversation-region="composer"]` |
+| No red caret | Drop the `caret-color` rule |
 
 ### Compatibility
 
-Built against DSH `0.2.2-rc.5` (macOS Desktop). It relies on the
-`data-conversation-content` container and the `--dsw-alias-*` theme tokens; a host
-release that changes those hooks may require a selector update.
+Built against DSH `0.2.2-rc.5` (macOS Desktop); other versions were not tested
+one by one. It relies on the `data-conversation-content` container and the
+`--dsw-alias-*` theme tokens, so a host release that changes those hooks may
+require a selector update.
 
 ### License
 
