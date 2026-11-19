@@ -1,0 +1,3 @@
+- insert:
+    - id: red-dialog-text
+      name: '@local/red-dialog-text'

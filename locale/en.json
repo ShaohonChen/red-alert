@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Red conversation text",
+    "description": "Shows the conversation pane's text in red: your messages, the assistant's messages, the composer, and the empty-session greeting. The red is the theme's error color, so it follows light and dark themes. Highlighted code tokens keep their syntax colors; plain code text and inline menus inside the pane turn red too. Disable the plugin to restore the standard text colors."
+  }
+}
