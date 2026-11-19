@@ -5,6 +5,8 @@
 **让 DeepSeek Harness 的对话面板，红得理直气壮。**
 一个零依赖的 DSH Web GUI 插件：一段作用域样式，就能把对话面板里的文字全部调成红色。
 
+> 仓库代号 **red-alert**，灵感来自《红色警戒》（Red Alert）：给你的对话面板拉响最高级别的红色警报。
+
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-ef4444?style=flat-square)](LICENSE)
 ![Dependencies: 0](https://img.shields.io/badge/dependencies-0-22c55e?style=flat-square)
 ![Build: none](https://img.shields.io/badge/build-none%20needed-22c55e?style=flat-square)
@@ -45,7 +47,7 @@
    ```
    也可以直接填 GitHub 地址：
    ```
-   https://github.com/ShaohonChen/dsh-red-dialog-text
+   https://github.com/ShaohonChen/red-alert
    ```
 3. 装好后插件列表里会出现「**对话文字变红 / Red conversation text**」。
    如果页面还没变化，按 `⌘R`（Windows `Ctrl+R`）刷新一次。
@@ -160,6 +162,8 @@ xmllint --noout icon.svg docs/*.svg   # 可选
 **Paint the DeepSeek Harness conversation red.**
 A zero-dependency DSH Web GUI plugin — one scoped stylesheet, no build step, no settings.
 
+> Repo codename **red-alert**, after the Red Alert series: sound the highest-level red alarm on your conversation pane.
+
 ![Default vs. red conversation pane (schematic, not a real screenshot)](docs/preview.svg)
 
 ### What it does
@@ -174,7 +178,7 @@ conversation header, right column, and portalled surfaces keep the host palette.
 
 1. Open **Settings → Plugins → Add plugin**;
 2. enter this repository's absolute path, or
-   `https://github.com/ShaohonChen/dsh-red-dialog-text`;
+   `https://github.com/ShaohonChen/red-alert`;
 3. keep **Red conversation text** enabled. Refresh the page (`⌘R`) if the recolor
    does not show up immediately.
 

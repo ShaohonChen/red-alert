@@ -7,11 +7,11 @@
   "license": "Unlicense",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShaohonChen/dsh-red-dialog-text.git"
+    "url": "git+https://github.com/ShaohonChen/red-alert.git"
   },
-  "homepage": "https://github.com/ShaohonChen/dsh-red-dialog-text#readme",
+  "homepage": "https://github.com/ShaohonChen/red-alert#readme",
   "bugs": {
-    "url": "https://github.com/ShaohonChen/dsh-red-dialog-text/issues"
+    "url": "https://github.com/ShaohonChen/red-alert/issues"
   },
   "keywords": [
     "deepseek-harness",
