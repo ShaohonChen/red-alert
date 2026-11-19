@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280" role="img" aria-label="示意图：插件从 Host 插件行加载客户端模块并注入作用域样式">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#9aa4b2"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="280" rx="24" fill="#f5f7fa"/>
+
+  <g font-family="system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif">
+    <text x="24" y="38" font-size="15" fill="#5b6472">实现原理 · How it works</text>
+
+    <!-- Host -->
+    <rect x="24" y="64" width="250" height="132" rx="16" fill="#ffffff" stroke="#e3e7ee"/>
+    <text x="44" y="96" font-size="15" font-weight="600" fill="#1f2937">DSH Host</text>
+    <text x="44" y="126" font-size="12.5" fill="#5b6472">cordis.patch.yml</text>
+    <text x="44" y="150" font-size="12.5" fill="#5b6472">插件行（bundle）</text>
+
+    <line x1="282" y1="130" x2="336" y2="130" stroke="#9aa4b2" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Client -->
+    <rect x="344" y="64" width="270" height="132" rx="16" fill="#ffffff" stroke="#e3e7ee"/>
+    <text x="364" y="96" font-size="15" font-weight="600" fill="#1f2937">Web GUI 客户端</text>
+    <text x="364" y="126" font-size="12.5" fill="#5b6472">client.js</text>
+    <text x="364" y="150" font-size="12.5" fill="#5b6472">ctx.effect(&lt;style&gt;)</text>
+
+    <line x1="622" y1="130" x2="676" y2="130" stroke="#9aa4b2" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Pane -->
+    <rect x="684" y="64" width="252" height="132" rx="16" fill="#ffffff" stroke="#f0c9c9"/>
+    <circle cx="708" cy="91" r="4" fill="#ec1313"/>
+    <text x="722" y="96" font-size="15" font-weight="600" fill="#1f2937">对话面板</text>
+    <text x="704" y="126" font-size="12" fill="#5b6472">[data-conversation-content]</text>
+    <text x="704" y="150" font-size="12" fill="#c62828">label token → 红色</text>
+
+    <text x="480" y="240" text-anchor="middle" font-size="12.5" fill="#8a93a3">不修改 DOM 结构 · 不读写会话数据 · 无网络请求</text>
+  </g>
+</svg>

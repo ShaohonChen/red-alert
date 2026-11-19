@@ -11,6 +11,12 @@ conversation pane's text red.
 
 ## 中文
 
+### 预览
+
+![默认配色与变红后的对话面板对比（示意图，非真实截图）](docs/preview.svg)
+
+![插件从 Host 插件行注入作用域样式到对话面板](docs/how-it-works.svg)
+
 ### 效果
 
 对话面板（`data-conversation-content` 子树）内的正文文字统一显示为红色：
@@ -79,6 +85,7 @@ conversation pane's text red.
 | [locale/zh.json](locale/zh.json) / [locale/en.json](locale/en.json) | 插件管理器中的标题与说明 |
 | [icon.svg](icon.svg) | 插件图标（36×36） |
 | [README.md](README.md) | 本文档 |
+| [docs/](docs) | README 配图：效果对比与实现原理示意图 |
 | [LICENSE](LICENSE) | 许可证 |
 
 提交前快速校验：
@@ -98,6 +105,12 @@ xmllint --noout icon.svg   # 可选，校验 SVG 格式
 ---
 
 ## English
+
+### Preview
+
+![Default vs. red conversation pane (schematic, not a real screenshot)](docs/preview.svg)
+
+![How the plugin injects a scoped stylesheet into the conversation pane](docs/how-it-works.svg)
 
 ### What it does
 
